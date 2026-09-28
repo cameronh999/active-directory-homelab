@@ -2,7 +2,7 @@
 
 Built a virtual Windows domain environment to practice the account management, networking, and troubleshooting tasks handled by IT help desk and system administration teams.
 
-**Tools:** Windows Server 2022 (or 2019) · Windows 10/11 Pro · Active Directory Domain Services · DNS · DHCP · RAS/NAT · PowerShell · Oracle VirtualBox
+**Tools:** Windows Server 2019 · Windows 10 Pro · Active Directory Domain Services · DNS · DHCP · RAS/NAT · PowerShell · Oracle VirtualBox
 
 ---
 
