@@ -90,3 +90,44 @@ Built a virtual Windows domain environment to practice the account management, n
 ## Credit
 
 Initial build based on [Josh Madakor's Active Directory home lab tutorial](https://www.youtube.com/watch?v=MHsI8hJmggI). Help desk scenarios, Group Policy configuration, and troubleshooting were added independently.
+
+## OU Structure and Groups
+
+I organized the domain by region so that users, computers, and groups can be managed and targeted with Group Policy per location.
+
+![OU structure for upstatelogistics.local with the USA Groups OU selected](images/07-ou-structure-groups.png)
+
+```
+upstatelogistics.local
+├── Asia
+│   ├── Computer
+│   ├── Groups
+│   ├── Servers
+│   └── Users
+├── Europe
+│   ├── Computer
+│   ├── Groups
+│   ├── Servers
+│   └── Users
+└── USA
+    ├── Computer
+    ├── Groups
+    ├── Servers
+    └── Users
+```
+
+### USA Groups
+
+| Group | Type | Purpose |
+|---|---|---|
+| Accounting | Security – Global | Access to Accounting share |
+| IT | Security – Global | Access to IT share |
+| Management | Security – Global | Elevated access to department shares |
+| HR | Distribution – Global | HR email distribution list |
+| Sales | Distribution – Global | Sales email distribution list |
+
+**Why this design:**
+- **Security groups** control permissions, so access is granted to a group once instead of user by user.
+- **Distribution groups** are used only for email lists and can't be assigned permissions.
+- **OUs by region** make it possible to apply different Group Policies to each location.
+- **OUs are protected from accidental deletion**, which I had to temporarily disable to reorganize the structure.
