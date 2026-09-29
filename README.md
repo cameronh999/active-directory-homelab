@@ -2,7 +2,7 @@
 
 Built a virtual Windows domain environment to practice the account management, networking, and troubleshooting tasks handled by IT help desk and system administration teams.
 
-**Tools:** Windows Server 2019 · Windows 10 Pro · Active Directory Domain Services · DNS · DHCP · RAS/NAT · PowerShell · Oracle VirtualBox
+**Tools:** Windows Server 2025 · Windows 11 Pro · Active Directory Domain Services · DNS · DHCP · RAS/NAT · PowerShell · VMware Workstation
 
 ---
 
@@ -23,7 +23,7 @@ Built a virtual Windows domain environment to practice the account management, n
 
 ## What I Built
 
-1. **Created two virtual machines** in VirtualBox: a server with two network adapters (internet-facing NAT and a private internal network) and a client on the internal network only.
+1. **Created two virtual machines** in VMware Workstation: a server with two network adapters (internet-facing NAT and a private internal network) and a client on the internal network only.
 2. **Installed Windows Server**, assigned a static IP to the internal adapter, and renamed the machine.
 3. **Installed Active Directory Domain Services** and promoted the server to a domain controller for a new forest.
 4. **Created a domain admin account** and organized accounts into Organizational Units (OUs).
