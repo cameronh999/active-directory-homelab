@@ -4,12 +4,12 @@
              and places them in a "_USERS" organizational unit.
 
     This is the PowerShell script I used on the domain controller VM to create
-    users in Active Directory for my Basic Home Lab project.
+    1k+ users in Active Directory for my Basic Home Lab project.
 
     Original script by Josh Madakor, from his Active Directory home lab tutorial:
     https://www.youtube.com/watch?v=MHsI8hJmggI
 
-    Environment: Windows Server 2019, run in PowerShell ISE as a domain admin
+    Environment: Windows Server 2025, run in PowerShell ISE as a domain admin
 #>
 
 # ----- Edit these Variables for your own Use Case ----- #
