@@ -14,7 +14,7 @@ Built a virtual Windows domain environment to practice the account management, n
 
 | Machine | Role | Network | IP |
 |---|---|---|---|
-| DC01 | Domain controller, DNS, DHCP, NAT router | NAT + Internal | 172.16.0.1 (internal, static) |
+| DC01 | Domain controller, DNS, DHCP, NAT router | NAT + Internal | 10.10.10.1 (internal, static) |
 | CLIENT1 | Domain-joined workstation | Internal only | Assigned by DHCP |
 
 **Domain:** `mydomain.com`
