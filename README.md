@@ -8,7 +8,7 @@ Built a virtual Windows domain environment to practice the account management, n
 
 ## Network Diagram
 
-![Network diagram](images/network-diagram.png)
+![Network diagram](images/00-network-diagram.png)
 
 <!-- Make this in draw.io (free). Show: Internet → DC01 (NIC 1: NAT) → DC01 (NIC 2: Internal, 172.16.0.1) → CLIENT1 (DHCP address) -->
 
