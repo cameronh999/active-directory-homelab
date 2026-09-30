@@ -17,9 +17,17 @@ Built a virtual Windows domain environment to practice the account management, n
 | DC01 | Domain controller, DNS, DHCP, NAT router | NAT + Internal | 10.10.10.1 (internal, static) |
 | CLIENT1 | Domain-joined workstation | Internal only | Assigned by DHCP |
 
-**Domain:** `mydomain.com`
+**Domain:** `upstatelogistics.local`
 
 ---
+
+### VM Network Configuration
+
+![DC01 VM settings showing NAT and Corp-LAN adapters](images/02-dc-network-adapters.png)
+
+DC01 has two network adapters: NAT for internet access, and Network Adapter 2 on the `Corp-LAN` LAN segment, an isolated network with no VMware DHCP, so the domain controller is the only DHCP server clients see.
+
+I chose a LAN segment instead of Host-only because VMware's Host-only network runs its own DHCP server, which would conflict with the DC's DHCP.
 
 ## What I Built
 
