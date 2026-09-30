@@ -7,7 +7,7 @@
     1k+ users in Active Directory for my Basic Home Lab project.
 
     Original script by Josh Madakor, from his Active Directory home lab tutorial:
-    https://www.youtube.com/watch?v=MHsI8hJmggI
+    https://www.youtube.com/watch?v=MHsI8hJmggI https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1
 
     Environment: Windows Server 2025, run in PowerShell ISE as a domain admin
 #>
