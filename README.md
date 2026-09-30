@@ -1,4 +1,4 @@
-# # Active Directory Home Lab
+# Active Directory Home Lab
 
 Built a virtual Windows domain environment to practice the account management, networking, and troubleshooting tasks handled by IT help desk and system administration teams.
 
