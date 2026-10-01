@@ -93,17 +93,31 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 **Why it's linked at the domain root:** account policies (password and lockout settings) only apply to domain user accounts when the GPO is linked at the domain level. Linked to an OU, they would have no effect on domain logins. The GPO is set above Default Domain Policy in link order so its settings take precedence.
 
+**Verified:** `gpupdate /force` followed by `net accounts` on DC01 confirms both the password and lockout policies are in effect.
+
+![net accounts output confirming password and lockout policies](images/12-net-accounts.png)
+
 **Testing:** I confirmed the policy applies by setting a password under 14 characters on a test user, which Windows rejected.
 
 ---
 
 ## Problems I Ran Into
 
-<!-- The most valuable section. Write real issues in this format. -->
+### Password policy wasn't taking effect
 
-**Problem:** _e.g., Client received a 169.254.x.x address and couldn't join the domain._
-**Cause:** _e.g., DHCP scope wasn't activated / client adapter was on the wrong VirtualBox network._
-**Fix:** _What you changed and how you confirmed it worked._
+**Problem:** After creating a Password Policy GPO with a 14-character minimum, the domain was still enforcing the default 7-character minimum.
+
+**Cause:** Default Domain Policy was at link order 1 on the domain, giving it the highest precedence. It defines its own password settings by default, so it overrode my Password Policy GPO.
+
+![Before: Default Domain Policy at link order 1](images/10-gpo-order-before.png)
+
+**Fix:** Moved Password Policy and Account Lockout Policy above Default Domain Policy in the link order, then ran `gpupdate /force` on DC01.
+
+![After: Password Policy at link order 1](images/11-gpo-order-after.png)
+
+**Verified:** `net accounts` on DC01 now reports a minimum password length of 14.
+
+**Lesson:** In Group Policy, the lowest link order number wins when GPOs define the same setting. Creating a GPO isn't enough — its precedence matters.
 
 ---
 
