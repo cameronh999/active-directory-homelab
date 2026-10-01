@@ -79,8 +79,6 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 ### Domain Password Policy
 
-![Group Policy Management showing the Password Policy GPO linked at the domain root](images/08-gpo-linked.png)
-
 ![Password Policy GPO settings in the Group Policy Management Editor](images/09-password-policy.png)
 
 | Setting | Value |
