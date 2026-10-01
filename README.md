@@ -29,6 +29,21 @@ DC01 has two network adapters: NAT for internet access, and Network Adapter 2 on
 
 I chose a LAN segment instead of Host-only because VMware's Host-only network runs its own DHCP server, which would conflict with the DC's DHCP.
 
+---
+
+### DC01 IP Configuration
+
+![DC01 network adapters renamed to INTERNET and INTERNAL, with static IPv4 settings on INTERNAL](images/04-dc-static-ip.png)
+
+| Adapter | Purpose | Configuration |
+|---|---|---|
+| INTERNET | Internet access via VMware NAT | DHCP (assigned by VMware) |
+| INTERNAL | Corp-LAN domain network | Static: 10.10.10.1/24, no gateway, DNS 10.10.10.1 |
+
+I renamed both adapters so it's clear which is which. The internal adapter has no default gateway because internet traffic leaves through the separate NAT adapter, and DNS points to DC01 itself since it hosts DNS for the domain.
+
+---
+
 ## What I Built
 
 1. **Created two virtual machines** in VMware Workstation: a server with two network adapters (internet-facing NAT and a private internal network) and a client on the internal network only.
