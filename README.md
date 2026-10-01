@@ -77,9 +77,23 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 ### Group Policy
 
-- Enforced a domain password policy (length, complexity, lockout threshold)
-- Mapped a network drive for all users in an OU
-- Restricted Control Panel access for standard users
+### Domain Password Policy
+
+![Group Policy Management showing the Password Policy GPO linked at the domain root](images/08-gpo-linked.png)
+
+![Password Policy GPO settings in the Group Policy Management Editor](images/09-password-policy.png)
+
+| Setting | Value |
+|---|---|
+| Minimum password length | 14 characters |
+| Password complexity | Enabled |
+| Enforce password history | 24 passwords |
+| Maximum password age | 90 days |
+| Minimum password age | 1 day |
+
+**Why it's linked at the domain root:** account policies (password and lockout settings) only apply to domain user accounts when the GPO is linked at the domain level. Linked to an OU, they would have no effect on domain logins. The GPO is set above Default Domain Policy in link order so its settings take precedence.
+
+**Testing:** I confirmed the policy applies by setting a password under 14 characters on a test user, which Windows rejected.
 
 ---
 
