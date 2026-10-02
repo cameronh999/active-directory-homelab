@@ -10,12 +10,12 @@ Built a virtual Windows domain environment to practice the account management, n
 
 ![Network diagram](images/00-network-diagram.png)
 
-<!-- Make this in draw.io (free). Show: Internet → DC01 (NIC 1: NAT) → DC01 (NIC 2: Internal, 172.16.0.1) → CLIENT1 (DHCP address) -->
+<!-- Make this in draw.io (free). Show: Internet → DC01 (NIC 1: NAT) → DC01 (NIC 2: Internal, 172.16.0.1) → USA-IT-WS01 (DHCP address) -->
 
 | Machine | Role | Network | IP |
 |---|---|---|---|
 | USA-DC01 | Domain controller, DNS, DHCP, NAT router | NAT + Internal | 10.10.10.1 (internal, static) |
-| CLIENT1 | Domain-joined workstation | Internal only | Assigned by DHCP |
+| USA-IT-WS01 | Domain-joined workstation | Internal only | Assigned by DHCP |
 
 **Domain:** `upstatelogistics.local`
 
