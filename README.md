@@ -117,6 +117,26 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 **Lesson:** In Group Policy, the lowest link order number wins when GPOs define the same setting. Creating a GPO isn't enough — its precedence matters.
 
+### Client couldn't sign in: "domain isn't available"
+
+**Problem:** USA-IT-WS01 joined the domain successfully, but domain user sign-ins failed.
+
+![Sign-in error: domain isn't available](images/20-domain-unavailable-error.png)
+
+**Cause:** USA-DC01 has two network adapters, and Windows registered both IP addresses in DNS. Clients were sometimes given the NAT-side 192.168.60.x address, which isn't reachable from Corp-LAN, so they couldn't find the domain controller.
+
+**Fix (on USA-DC01):**
+- Disabled "Register this connection's addresses in DNS" on the INTERNET adapter
+- Set the DNS server to listen only on 10.10.10.1 (DNS Manager → server Properties → Interfaces)
+- Deleted the stale 192.168.60.x A records from the upstatelogistics.local zone
+- Ran `ipconfig /flushdns`, `ipconfig /registerdns`, and restarted the Netlogon service
+
+**Verified:** `nslookup upstatelogistics.local` on the client now returns only 10.10.10.1, and domain users can sign in.
+
+![nslookup returning only 10.10.10.1](images/21-nslookup-fixed.png)
+
+**Lesson:** On a domain controller with more than one network adapter, only the internal interface should be registered in DNS. Otherwise clients may be directed to an address they can't reach.
+
 ---
 
 ## What I Learned
