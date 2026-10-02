@@ -14,7 +14,7 @@ Built a virtual Windows domain environment to practice the account management, n
 
 | Machine | Role | Network | IP |
 |---|---|---|---|
-| DC01 | Domain controller, DNS, DHCP, NAT router | NAT + Internal | 10.10.10.1 (internal, static) |
+| USA-DC01 | Domain controller, DNS, DHCP, NAT router | NAT + Internal | 10.10.10.1 (internal, static) |
 | CLIENT1 | Domain-joined workstation | Internal only | Assigned by DHCP |
 
 **Domain:** `upstatelogistics.local`
@@ -23,17 +23,17 @@ Built a virtual Windows domain environment to practice the account management, n
 
 ### VM Network Configuration
 
-![DC01 VM settings showing NAT and Corp-LAN adapters](images/02-dc-network-adapters.png)
+![USA-DC01 VM settings showing NAT and Corp-LAN adapters](images/02-dc-network-adapters.png)
 
-DC01 has two network adapters: NAT for internet access, and Network Adapter 2 on the `Corp-LAN` LAN segment, an isolated network with no VMware DHCP, so the domain controller is the only DHCP server clients see.
+USA-DC01 has two network adapters: NAT for internet access, and Network Adapter 2 on the `Corp-LAN` LAN segment, an isolated network with no VMware DHCP, so the domain controller is the only DHCP server clients see.
 
 I chose a LAN segment instead of Host-only because VMware's Host-only network runs its own DHCP server, which would conflict with the DC's DHCP.
 
 ---
 
-### DC01 IP Configuration
+### USA-DC01 IP Configuration
 
-![DC01 network adapters renamed to INTERNET and INTERNAL, with static IPv4 settings on INTERNAL](images/04-dc-static-ip.png)
+![USA-DC01 network adapters renamed to INTERNET and INTERNAL, with static IPv4 settings on INTERNAL](images/04-dc-static-ip.png)
 
 | Adapter | Purpose | Configuration |
 |---|---|---|
@@ -91,7 +91,7 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 **Why it's linked at the domain root:** account policies (password and lockout settings) only apply to domain user accounts when the GPO is linked at the domain level. Linked to an OU, they would have no effect on domain logins. The GPO is set above Default Domain Policy in link order so its settings take precedence.
 
-**Verified:** `gpupdate /force` followed by `net accounts` on DC01 confirms both the password and lockout policies are in effect.
+**Verified:** `gpupdate /force` followed by `net accounts` on USA-DC01 confirms both the password and lockout policies are in effect.
 
 ![net accounts output confirming password and lockout policies](images/12-net-accounts.png)
 
@@ -109,11 +109,11 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 ![Before: Default Domain Policy at link order 1](images/10-gpo-order-before.png)
 
-**Fix:** Moved Password Policy and Account Lockout Policy above Default Domain Policy in the link order, then ran `gpupdate /force` on DC01.
+**Fix:** Moved Password Policy and Account Lockout Policy above Default Domain Policy in the link order, then ran `gpupdate /force` on USA-DC01.
 
 ![After: Password Policy at link order 1](images/11-gpo-order-after.png)
 
-**Verified:** `net accounts` on DC01 now reports a minimum password length of 14.
+**Verified:** `net accounts` on USA-DC01 now reports a minimum password length of 14.
 
 **Lesson:** In Group Policy, the lowest link order number wins when GPOs define the same setting. Creating a GPO isn't enough — its precedence matters.
 
