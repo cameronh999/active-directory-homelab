@@ -2,6 +2,17 @@
 
 Built a virtual Windows domain environment to practice the account management, networking, and troubleshooting tasks handled by IT help desk and system administration teams.
 
+---
+
+**Highlights:**
+- Windows Server 2025 domain controller running AD DS, DNS (forward and reverse zones), DHCP, and NAT routing on VMware Workstation Pro
+- Isolated `10.10.10.0/24` corporate network with a Windows 11 client receiving its configuration from the DC's DHCP scope
+- Regional OU structure (USA, Europe, Asia) with naming conventions for computers and servers, plus security and distribution groups
+- Group Policy for password and lockout rules, USB blocking, drive mappings, and Control Panel restrictions, with security filtering to exempt the IT group
+- Troubleshot and documented real issues: GPO link precedence, DNS registration on a dual-homed DC, and safely renaming a promoted DC with `netdom`
+
+---
+
 **Tools:** Windows Server 2025 · Windows 11 Pro · Active Directory Domain Services · DNS · DHCP · RAS/NAT · PowerShell · VMware Workstation
 
 ---
@@ -141,10 +152,11 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 ## What I Learned
 
-- How Active Directory, DNS, and DHCP depend on each other in a domain environment
-- How domain join and authentication work between a client and a domain controller
-- Using PowerShell to automate repetitive administration tasks
-- <!-- Add your own -->
+- How AD DS, DNS, and DHCP depend on each other, and why clients must use the DC for DNS
+- How GPO link order determines which settings win when policies conflict
+- Why account policies only apply to domain users when linked at the domain root
+- Why a dual-homed domain controller should only register its internal IP in DNS
+- How to safely rename a domain controller after promotion with `netdom`
 
 ---
 
@@ -158,8 +170,10 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 ## Credit
 
-Initial build based on [Josh Madakor's Active Directory home lab tutorial](https://www.youtube.com/watch?v=MHsI8hJmggI). 
-Help desk scenarios, Group Policy configuration, and troubleshooting were added independently based on [East Charmer's Windows Server Home Lab Project](https://www.youtube.com/playlist?list=PLAdEnQWAAbfXMY2D4HVZOe-ChfTKmaJfQ)
+- Initial build and user creation script based on [Josh Madakor's Active Directory home lab tutorial](https://www.youtube.com/watch?v=MHsI8hJmggI).
+- Group Policy and help desk scenarios guided by [East Charmer's Windows Server Home Lab Project](https://www.youtube.com/playlist?list=PLAdEnQWAAbfXMY2D4HVZOe-ChfTKmaJfQ).
+
+The network design, OU structure, naming conventions, VMware adaptation, and troubleshooting documented above are my own.
 
 ## OU Structure and Groups
 
