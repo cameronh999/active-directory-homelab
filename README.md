@@ -158,7 +158,8 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 ## Credit
 
-Initial build based on [Josh Madakor's Active Directory home lab tutorial](https://www.youtube.com/watch?v=MHsI8hJmggI). Help desk scenarios, Group Policy configuration, and troubleshooting were added independently.
+Initial build based on [Josh Madakor's Active Directory home lab tutorial](https://www.youtube.com/watch?v=MHsI8hJmggI). 
+Help desk scenarios, Group Policy configuration, and troubleshooting were added independently based on [East Charmer's Windows Server Home Lab Project](https://www.youtube.com/playlist?list=PLAdEnQWAAbfXMY2D4HVZOe-ChfTKmaJfQ)
 
 ## OU Structure and Groups
 
