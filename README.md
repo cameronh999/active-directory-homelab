@@ -150,9 +150,9 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 ### Client lost its IP address after renaming the DC
 
-**Problem:** USA-IT-WS01 fell back to a 169.254.x.x address and couldn't reach the domain controller. `gpupdate` failed due to lack of connectivity.
+**Problem:** USA-IT-WS01 fell back to a 169.254.32.209 address and couldn't reach the domain controller. `gpupdate` failed due to lack of connectivity.
 
-![Client with 169.254 address and failed ping](images/22-dhcp-apipa.png)
+![Client with 169.254.32.209 address and failed ping](images/22-dhcp-apipa.png)
 
 **Cause:** Renaming the DC reset the DHCP server's authorization in Active Directory. The DHCP service logged Event 1046 (not authorized to start) and stopped handing out addresses.
 
