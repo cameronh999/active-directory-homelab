@@ -148,6 +148,22 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 **Lesson:** On a domain controller with more than one network adapter, only the internal interface should be registered in DNS. Otherwise clients may be directed to an address they can't reach.
 
+### Client lost its IP address after renaming the DC
+
+**Problem:** USA-IT-WS01 fell back to a 169.254.x.x address and couldn't reach the domain controller. `gpupdate` failed due to lack of connectivity.
+
+![Client with 169.254 address and failed ping](images/22-dhcp-apipa.png)
+
+**Cause:** Renaming the DC reset the DHCP server's authorization in Active Directory. The DHCP service logged Event 1046 (not authorized to start) and stopped handing out addresses.
+
+![Event 1046: DHCP server not authorized](images/23-dhcp-event-1046.png)
+
+**Fix:** Completed the DHCP post-deployment configuration to re-authorize the server under its new name, then ran `ipconfig /renew` on the client.
+
+![Client renewed to 10.10.10.100 and ping succeeds](images/24-dhcp-renewed.png)
+
+**Lesson:** DHCP authorization is tied to the server's name in AD. After renaming a DHCP server, re-authorize it and check the event log.
+
 ---
 
 ## What I Learned
