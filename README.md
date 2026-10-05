@@ -10,6 +10,7 @@ Built a virtual Windows domain environment to practice the account management, n
 - Regional OU structure (USA, Europe, Asia) with naming conventions for computers and servers, plus security and distribution groups
 - Group Policy for password and lockout rules, USB blocking, drive mappings, and Control Panel restrictions, with security filtering to exempt the IT group
 - Troubleshot and documented real issues: GPO link precedence, DNS registration on a dual-homed DC, and safely renaming a promoted DC with `netdom`
+- File share mapped by Group Policy, with FSRM file screening that blocks and logs restricted file types
 
 ---
 
@@ -110,6 +111,31 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 
 ---
 
+## File Sharing and File Screening
+
+### Shared Folder
+
+Created `C:\Shared` on USA-DC01 and shared it as `\\USA-DC01\Shared`. Share permissions allow Domain Users **Change**, with NTFS permissions controlling access to individual files and folders. The share is mapped automatically as **S:** through the Mapped Drives GPO.
+
+![Share permissions for Domain Users](images/33-share-permissions.png)
+
+### File Screen (FSRM)
+
+Installed File Server Resource Manager and created a file screen on `C:\Shared` that blocks audio and video files, with blocked attempts logged to the Event Log.
+
+![FSRM file screen blocking Audio and Video Files](images/34-fsrm-file-screen.png)
+
+**Testing:** As gjones, a text file saved normally, but renaming it to `test.mp3` was denied.
+
+![test.txt saved to S: successfully](images/35-txt-allowed.png)
+![Renaming to test.mp3 denied](images/36-mp3-blocked.png)
+
+FSRM logged event 8215 identifying the user, file, and file group that triggered the block.
+
+![Event 8215: blocked save attempt logged](images/37-fsrm-event-8215.png)
+
+---
+
 ## Problems I Ran Into
 
 ### Password policy wasn't taking effect
@@ -163,6 +189,16 @@ I renamed both adapters so it's clear which is which. The internal adapter has n
 ![Client renewed to 10.10.10.100 and ping succeeds](images/24-dhcp-renewed.png)
 
 **Lesson:** DHCP authorization is tied to the server's name in AD. After renaming a DHCP server, re-authorize it and check the event log.
+
+### "Access denied" came from the wrong layer
+
+**Problem:** While testing the file screen, saving any file to S: was denied — not just audio and video files.
+
+**Cause:** The share permissions gave Domain Users only Read access, so all writes were refused before FSRM ever evaluated the file. Event Viewer showed no FSRM event (8215), which pointed to the share permissions instead.
+
+**Fix:** Changed the share permission for Domain Users to Change. Text files then saved normally, and only `.mp3` files were blocked by FSRM, with event 8215 logged.
+
+**Lesson:** An "access denied" message doesn't say which layer denied access. Check share permissions, NTFS permissions, and FSRM separately, and use the event log to confirm.
 
 ---
 
@@ -231,3 +267,16 @@ upstatelogistics.local
 - **Distribution groups** are used only for email lists and can't be assigned permissions.
 - **OUs by region** make it possible to apply different Group Policies to each location.
 - **OUs are protected from accidental deletion**, which I had to temporarily disable to reorganize the structure.
+
+### Computer Naming Convention
+
+Computers follow a `REGION-DEPT-TYPE##` format, and servers follow `REGION-ROLE##`, both kept within Windows' 15-character limit:
+
+| Example | Meaning |
+|---|---|
+| `USA-IT-WS01` | USA, IT department, workstation #1 |
+| `USA-DC01` | USA, domain controller #1 |
+
+Other regions and departments follow the same pattern (e.g., `EU-SALES-WS01`, `ASIA-DC01`).
+
+New computers are moved from the default Computers container into their region's Computer OU after joining the domain.
