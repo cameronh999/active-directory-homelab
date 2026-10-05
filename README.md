@@ -128,6 +128,7 @@ Installed File Server Resource Manager and created a file screen on `C:\Shared` 
 **Testing:** As gjones, a text file saved normally, but renaming it to `test.mp3` was denied.
 
 ![test.txt saved to S: successfully](images/35-txt-allowed.png)
+
 ![Renaming to test.mp3 denied](images/36-mp3-blocked.png)
 
 FSRM logged event 8215 identifying the user, file, and file group that triggered the block.
